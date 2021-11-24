@@ -15,18 +15,13 @@ public class Computer {
 
     public Computer(int totalStacks) {
         stacks = new Stack[totalStacks];
-        init();
-    }
-
-    private void init() {
         for (int i = 0; i < stacks.length; i++) {
             stacks[i] = new Stack<>();
         }
         mainStack = stacks[0];
-        conditionState = false;
     }
 
-    public String execute(String program) {
+    public String execute(String program) throws Exception {
         String[] tokens = parse(program);
 
         StringBuilder out = new StringBuilder();
@@ -41,10 +36,13 @@ public class Computer {
     }
 
     public void clearState() {
-        init();
+        conditionState = false; // reset condition state
+        for (Stack<String> stack : stacks) {
+            stack.clear();
+        }
     }
 
-    public String executeNext(String token) {
+    public String executeNext(String token) throws Exception {
         // commands with "?" prefix only execute if conditionState=true
         if (token.startsWith("?")) {
             if (conditionState) {
@@ -97,7 +95,7 @@ public class Computer {
                 return null;
             }
             case "!": {
-                push(0, factorial(popInteger()));
+                push(0, Utils.factorial(popInteger()));
                 return null;
             }
             case "len": {
@@ -178,7 +176,7 @@ public class Computer {
                 int a = popInteger();
                 int b = popInteger();
                 // random number is >= a and <= b
-                push(0, random(b, a));
+                push(0, Utils.random(b, a));
                 return null;
             }
             case "then": {
@@ -189,6 +187,19 @@ public class Computer {
             case "else": {
                 int x = popInteger();
                 conditionState = x == 0;
+                return null;
+            }
+            case "print": {
+                if (mainStack.isEmpty()) {
+                    return "";
+                } else {
+                    int index = popInteger();
+                    return print(index);
+                }
+            }
+            case "clear": {
+                int index = popInteger();
+                clear(index);
                 return null;
             }
             default: {
@@ -214,15 +225,30 @@ public class Computer {
         return Integer.parseInt(mainStack.pop());
     }
 
-    private int random(int max, int min) {
-        return (int) (Math.random() * (max - min + 1) + min);
+    private String print(int stackIndex) throws Exception {
+        checkStackIndex(stackIndex);
+        Stack<String> stack = stacks[stackIndex];
+        String[] out = new String[stack.size()];
+        for (int i = 0; i < out.length; i++) {
+            out[out.length - i - 1] = stack.pop();
+        }
+        return Utils.join(out, " ");
     }
 
-    private int factorial(int n) {
-        if (n == 0) {
-            return 1;
+    private void clear(int stackIndex) throws Exception {
+        checkStackIndex(stackIndex);
+        stacks[stackIndex].clear();
+    }
+
+    private void copy(int stackIndex) throws Exception {
+        checkStackIndex(stackIndex);
+        stacks[stackIndex].addAll(stacks[0]);
+    }
+
+    private void checkStackIndex(int stackIndex) throws Exception {
+        if (stackIndex >= stacks.length) {
+            throw new Exception("Invalid stack index");
         }
-        return n * factorial(n - 1);
     }
 
     public static String[] parse(String input) {
