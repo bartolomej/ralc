@@ -74,25 +74,25 @@ public class Computer {
                 return null;
             }
             case "char": {
-                mainStack.push("" + (char)popInteger());
+                push(0, (char)popInteger());
                 return null;
             }
             case "even": {
                 boolean isEven = popInteger() % 2 == 0;
-                mainStack.push("" + (isEven ? 1 : 0));
+                push(0, isEven ? 1 : 0);
                 return null;
             }
             case "odd": {
                 boolean isOdd = popInteger() % 2 != 0;
-                mainStack.push("" + (isOdd ? 1 : 0));
+                push(0, isOdd ? 1 : 0);
                 return null;
             }
             case "!": {
-                mainStack.push("" + factorial(popInteger()));
+                push(0, factorial(popInteger()));
                 return null;
             }
             case "len": {
-                mainStack.push("" + mainStack.pop().length());
+                push(0, mainStack.pop().length());
                 return null;
             }
             default: {
@@ -100,6 +100,14 @@ public class Computer {
                 return null;
             }
         }
+    }
+
+    private void push(int stackIndex, int value) {
+        stacks[stackIndex].push("" + value);
+    }
+
+    private void push(int stackIndex, String value) {
+        stacks[stackIndex].push(value);
     }
 
     private int popInteger() {
