@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Welcome to ralc!");
-        System.out.println("Type '.help' for more info or '.exit' to exit REPL.");
+        System.out.println("Type '.help' for more info or '.exit' to exit.");
         Scanner sc = new Scanner(System.in);
         Computer computer = new Computer();
         String input = "";
@@ -24,7 +24,6 @@ public class Main {
                 System.err.println("Failed to execute: " + e.getMessage());
                 e.printStackTrace();
             }
-            computer.clearState();
         }
     }
 

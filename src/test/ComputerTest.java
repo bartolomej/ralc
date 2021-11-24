@@ -37,4 +37,11 @@ class ComputerTest {
         assertArrayEquals(expected, actual);
         assertEquals(computer.mainStack.size(), 4);
     }
+
+    @org.junit.jupiter.api.Test
+    void condition() {
+        Computer computer = new Computer();
+        assertEquals("Hello\n", computer.execute("Hello 1 2 == else ?echo"));
+        assertEquals("Hello\n", computer.execute("Hello 1 1 == then ?echo"));
+    }
 }

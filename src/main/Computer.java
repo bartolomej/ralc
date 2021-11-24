@@ -7,6 +7,7 @@ public class Computer {
     public final Stack<String>[] stacks;
     public Stack<String> mainStack;
     private static final int DEFAULT_STACKS = 42;
+    private boolean conditionState;
 
     public Computer() {
         this(DEFAULT_STACKS);
@@ -22,6 +23,7 @@ public class Computer {
             stacks[i] = new Stack<>();
         }
         mainStack = stacks[0];
+        conditionState = false;
     }
 
     public String execute(String program) {
@@ -34,6 +36,7 @@ public class Computer {
                 out.append(result).append("\n");
             }
         }
+        clearState();
         return out.toString();
     }
 
@@ -42,6 +45,14 @@ public class Computer {
     }
 
     public String executeNext(String token) {
+        // commands with "?" prefix only execute if conditionState=true
+        if (token.startsWith("?")) {
+            if (conditionState) {
+                token = token.replaceAll("\\?", "");
+            } else {
+                return null;
+            }
+        }
         switch (token) {
             case "echo": {
                 if (mainStack.isEmpty()) {
@@ -74,7 +85,7 @@ public class Computer {
                 return null;
             }
             case "char": {
-                push(0, (char)popInteger());
+                push(0, (char) popInteger());
                 return null;
             }
             case "even": {
@@ -170,6 +181,16 @@ public class Computer {
                 push(0, random(b, a));
                 return null;
             }
+            case "then": {
+                int x = popInteger();
+                conditionState = x != 0;
+                return null;
+            }
+            case "else": {
+                int x = popInteger();
+                conditionState = x == 0;
+                return null;
+            }
             default: {
                 mainStack.push(token);
                 return null;
@@ -194,7 +215,7 @@ public class Computer {
     }
 
     private int random(int max, int min) {
-        return (int)(Math.random() * (max - min + 1) + min);
+        return (int) (Math.random() * (max - min + 1) + min);
     }
 
     private int factorial(int n) {
