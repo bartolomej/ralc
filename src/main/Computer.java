@@ -73,11 +73,44 @@ public class Computer {
                 mainStack.push(y);
                 return null;
             }
+            case "char": {
+                mainStack.push("" + (char)popInteger());
+                return null;
+            }
+            case "even": {
+                boolean isEven = popInteger() % 2 == 0;
+                mainStack.push("" + (isEven ? 1 : 0));
+                return null;
+            }
+            case "odd": {
+                boolean isOdd = popInteger() % 2 != 0;
+                mainStack.push("" + (isOdd ? 1 : 0));
+                return null;
+            }
+            case "!": {
+                mainStack.push("" + factorial(popInteger()));
+                return null;
+            }
+            case "len": {
+                mainStack.push("" + mainStack.pop().length());
+                return null;
+            }
             default: {
                 mainStack.push(token);
                 return null;
             }
         }
+    }
+
+    private int popInteger() {
+        return Integer.parseInt(mainStack.pop());
+    }
+
+    private int factorial(int n) {
+        if (n == 0) {
+            return 1;
+        }
+        return n * factorial(n - 1);
     }
 
     public static String[] parse(String input) {

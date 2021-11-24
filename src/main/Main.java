@@ -14,7 +14,7 @@ public class Main {
             input = sc.nextLine();
             try {
                 String result = computer.execute(input);
-                System.out.println(result);
+                System.out.print(result);
             } catch (Exception e) {
                 System.err.println("Failed to execute: " + e.getMessage());
                 e.printStackTrace();
