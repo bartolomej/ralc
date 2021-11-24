@@ -78,13 +78,11 @@ public class Computer {
                 return null;
             }
             case "even": {
-                boolean isEven = popInteger() % 2 == 0;
-                push(0, isEven ? 1 : 0);
+                push(0, popInteger() % 2 == 0);
                 return null;
             }
             case "odd": {
-                boolean isOdd = popInteger() % 2 != 0;
-                push(0, isOdd ? 1 : 0);
+                push(0, popInteger() % 2 != 0);
                 return null;
             }
             case "!": {
@@ -95,11 +93,92 @@ public class Computer {
                 push(0, mainStack.pop().length());
                 return null;
             }
+            case "<>": {
+                int a = popInteger();
+                int b = popInteger();
+                push(0, a != b);
+                return null;
+            }
+            case "==": {
+                int a = popInteger();
+                int b = popInteger();
+                push(0, a == b);
+                return null;
+            }
+            case "<": {
+                int a = popInteger();
+                int b = popInteger();
+                push(0, a < b);
+                return null;
+            }
+            case "<=": {
+                int a = popInteger();
+                int b = popInteger();
+                push(0, a <= b);
+                return null;
+            }
+            case ">": {
+                int a = popInteger();
+                int b = popInteger();
+                push(0, a > b);
+                return null;
+            }
+            case ">=": {
+                int a = popInteger();
+                int b = popInteger();
+                push(0, a >= b);
+                return null;
+            }
+            case "+": {
+                int a = popInteger();
+                int b = popInteger();
+                push(0, a + b);
+                return null;
+            }
+            case "-": {
+                int a = popInteger();
+                int b = popInteger();
+                push(0, a - b);
+                return null;
+            }
+            case "*": {
+                int a = popInteger();
+                int b = popInteger();
+                push(0, a * b);
+                return null;
+            }
+            case "/": {
+                int a = popInteger();
+                int b = popInteger();
+                push(0, a / b);
+                return null;
+            }
+            case "%": {
+                int a = popInteger();
+                int b = popInteger();
+                push(0, b % a);
+                return null;
+            }
+            case ".": {
+                push(0, mainStack.pop() + mainStack.pop());
+                return null;
+            }
+            case "rnd": {
+                int a = popInteger();
+                int b = popInteger();
+                // random number is >= a and <= b
+                push(0, random(b, a));
+                return null;
+            }
             default: {
                 mainStack.push(token);
                 return null;
             }
         }
+    }
+
+    private void push(int stackIndex, boolean value) {
+        stacks[stackIndex].push(value ? "1" : "0");
     }
 
     private void push(int stackIndex, int value) {
@@ -112,6 +191,10 @@ public class Computer {
 
     private int popInteger() {
         return Integer.parseInt(mainStack.pop());
+    }
+
+    private int random(int max, int min) {
+        return (int)(Math.random() * (max - min + 1) + min);
     }
 
     private int factorial(int n) {
