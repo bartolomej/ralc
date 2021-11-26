@@ -24,7 +24,7 @@ class ComputerTest {
     @Test
     void execute() throws Exception {
         Computer computer = new Computer();
-        assertEquals("2", computer.execute("1 2  echo "));
+        assertEquals("2\n", computer.execute("1 2  echo "));
     }
 
     @Test
@@ -41,6 +41,16 @@ class ComputerTest {
     void condition() throws Exception {
         Computer computer = new Computer();
         assertEquals("Hello\n", computer.execute("Hello 1 2 == else ?echo"));
+        computer.clearState(); // clear state before the next program
         assertEquals("Hello\n", computer.execute("Hello 1 1 == then ?echo"));
     }
+
+    @Test
+    void funOperation() throws Exception {
+        Computer computer = new Computer();
+        // should move items 2,3,4 to stack 1 and print the last item: 1
+        assertEquals("1\n", computer.execute("1 3 1 fun 2 3 4 echo"));
+        assertEquals(3, computer.stacks[1].size());
+    }
+
 }

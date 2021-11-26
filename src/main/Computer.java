@@ -25,13 +25,27 @@ public class Computer {
         String[] tokens = parse(program);
 
         StringBuilder out = new StringBuilder();
+        int moveCount = 0;
+        Stack<String> targetStack = null;
         for (String token : tokens) {
-            String result = executeNext(token);
-            if (result != null) {
-                out.append(result).append("\n");
+            // add a predefined number of next tokens
+            // to a specified stack if encountering "fun" token
+            if (token.equals("fun")) {
+                int targetStackIndex = popInteger();
+                moveCount = popInteger();
+                targetStack = stacks[targetStackIndex];
+            }
+            else if (moveCount > 0 && targetStack != null) {
+                targetStack.add(token);
+                moveCount--;
+            }
+            else {
+                 String result = executeNext(token);
+                if (result != null) {
+                    out.append(result).append("\n");
+                }
             }
         }
-        clearState();
         return out.toString();
     }
 
@@ -240,9 +254,12 @@ public class Computer {
         stacks[stackIndex].clear();
     }
 
-    private void copy(int stackIndex) throws Exception {
+    private void moveToStack(int stackIndex, int count) throws Exception {
         checkStackIndex(stackIndex);
-        stacks[stackIndex].addAll(stacks[0]);
+        for (int i = 0; i < count; i++) {
+            String topElement = stacks[0].pop();
+            stacks[stackIndex].add(topElement);
+        }
     }
 
     private void checkStackIndex(int stackIndex) throws Exception {

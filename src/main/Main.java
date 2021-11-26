@@ -19,6 +19,7 @@ public class Main {
             }
             try {
                 String result = computer.execute(input);
+                computer.clearState();
                 System.out.print(result);
             } catch (Exception e) {
                 System.err.println("Failed to execute: " + e.getMessage());
