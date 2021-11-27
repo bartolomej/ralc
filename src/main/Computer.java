@@ -216,6 +216,12 @@ public class Computer {
                 clear(index);
                 return null;
             }
+            case "move": {
+                int targetStackIndex = popInteger();
+                int moveCount = popInteger();
+                moveToStack(targetStackIndex, moveCount);
+                return null;
+            }
             default: {
                 mainStack.push(token);
                 return null;
@@ -257,7 +263,7 @@ public class Computer {
     private void moveToStack(int stackIndex, int count) throws Exception {
         checkStackIndex(stackIndex);
         for (int i = 0; i < count; i++) {
-            String topElement = stacks[0].pop();
+            String topElement = mainStack.pop();
             stacks[stackIndex].add(topElement);
         }
     }

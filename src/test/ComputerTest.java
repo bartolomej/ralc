@@ -53,4 +53,12 @@ class ComputerTest {
         assertEquals(3, computer.stacks[1].size());
     }
 
+    @Test
+    void moveOperation() throws Exception {
+        Computer computer = new Computer();
+        // should move items 2,3,4 to stack 1 and print the last item: 1
+        assertEquals("\n", computer.execute("1 3 2 1 move echo"));
+        assertEquals(2, computer.stacks[1].size());
+    }
+
 }
