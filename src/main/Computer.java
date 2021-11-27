@@ -97,7 +97,7 @@ public class Computer {
                 return null;
             }
             case "char": {
-                push(0, (char) popInteger());
+                push(0, "" + (char) popInteger());
                 return null;
             }
             case "even": {
@@ -161,7 +161,7 @@ public class Computer {
             case "-": {
                 int a = popInteger();
                 int b = popInteger();
-                push(0, a - b);
+                push(0, b - a);
                 return null;
             }
             case "*": {
@@ -222,6 +222,11 @@ public class Computer {
                 moveToStack(targetStackIndex, moveCount);
                 return null;
             }
+            case "reverse": {
+                int targetStackIndex = popInteger();
+                reverseStack(targetStackIndex);
+                return null;
+            }
             default: {
                 mainStack.push(token);
                 return null;
@@ -266,6 +271,16 @@ public class Computer {
             String topElement = mainStack.pop();
             stacks[stackIndex].add(topElement);
         }
+    }
+
+    private void reverseStack(int stackIndex) throws Exception {
+        checkStackIndex(stackIndex);
+        Stack<String> tempStack = new Stack<>();
+        Stack<String> targetStack = stacks[stackIndex];
+        while (!targetStack.isEmpty()) {
+            tempStack.push(targetStack.pop());
+        }
+        targetStack.addAll(tempStack);
     }
 
     private void checkStackIndex(int stackIndex) throws Exception {

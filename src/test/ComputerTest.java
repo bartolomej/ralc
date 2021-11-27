@@ -61,4 +61,9 @@ class ComputerTest {
         assertEquals(2, computer.stacks[1].size());
     }
 
+    @Test
+    void reverseOperation() throws Exception {
+        Computer computer = new Computer();
+        assertEquals("4 3 2 1\n", computer.execute("1 2 3 4 0 reverse 0 print"));
+    }
 }
