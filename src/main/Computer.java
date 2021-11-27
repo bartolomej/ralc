@@ -74,7 +74,8 @@ public class Computer {
                 }
             }
             case "pop": {
-                return mainStack.pop();
+                mainStack.pop();
+                return null;
             }
             case "dup": {
                 mainStack.push(mainStack.peek());
@@ -199,8 +200,7 @@ public class Computer {
                 return null;
             }
             case "else": {
-                int x = popInteger();
-                conditionState = x == 0;
+                conditionState = !conditionState;
                 return null;
             }
             case "print": {
@@ -227,6 +227,17 @@ public class Computer {
                 reverseStack(targetStackIndex);
                 return null;
             }
+            case "run": {
+                int targetStackIndex = popInteger();
+                run(targetStackIndex);
+                return null;
+            }
+            case "loop": {
+                int targetStackIndex = popInteger();
+                int repetitions = popInteger();
+                loop(targetStackIndex, repetitions);
+                return null;
+            }
             default: {
                 mainStack.push(token);
                 return null;
@@ -250,12 +261,29 @@ public class Computer {
         return Integer.parseInt(mainStack.pop());
     }
 
+    private void loop(int targetStackIndex, int repetitions) throws Exception {
+        for (int i = 0; i < repetitions; i++) {
+            run(targetStackIndex);
+        }
+    }
+
+    private void run(int targetStackIndex) throws Exception {
+        Stack<String> targetStack = stacks[targetStackIndex];
+        Stack<String> reversedStack = reverseStack(targetStack);
+        while (!reversedStack.isEmpty()) {
+            String token = reversedStack.pop();
+            executeNext(token);
+        }
+    }
+
     private String print(int stackIndex) throws Exception {
         checkStackIndex(stackIndex);
-        Stack<String> stack = stacks[stackIndex];
-        String[] out = new String[stack.size()];
+        Stack<String> targetStack = stacks[stackIndex];
+        Stack<String> tempStack = new Stack<>();
+        tempStack.addAll(targetStack);
+        String[] out = new String[tempStack.size()];
         for (int i = 0; i < out.length; i++) {
-            out[out.length - i - 1] = stack.pop();
+            out[out.length - i - 1] = tempStack.pop();
         }
         return Utils.join(out, " ");
     }
@@ -281,6 +309,16 @@ public class Computer {
             tempStack.push(targetStack.pop());
         }
         targetStack.addAll(tempStack);
+    }
+
+    private Stack<String> reverseStack(Stack<String> stack) {
+        Stack<String> tempStack = new Stack<>();
+        tempStack.addAll(stack);
+        Stack<String> resultStack = new Stack<>();
+        while (!tempStack.isEmpty()) {
+            resultStack.push(tempStack.pop());
+        }
+        return resultStack;
     }
 
     private void checkStackIndex(int stackIndex) throws Exception {

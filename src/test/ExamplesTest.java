@@ -67,7 +67,7 @@ public class ExamplesTest {
     @Test
     void example7() throws Exception {
         assertEquals(
-                "2 1 0 0\n\n2 2 1 1 0 0 0\n",
+                "2 1 0 0\n2 2 1 0 0 0\n",
                 computer.execute("0 1 2 3 1 fun 0 reverse dup 1 run 0 print 2 1 loop 0 print")
         );
     }
