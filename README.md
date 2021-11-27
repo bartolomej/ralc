@@ -6,7 +6,7 @@ Ralc programs can be executed in REPL (Read-eval-print loop) tool. Here are a fe
 
 ```
 Welcome to ralc!
-Type '.help' for more info or '.exit' to exit REPL.
+Type '.help' for more info or '.exit' to exit.
 
 > HelloWorld echo
 HelloWorld
@@ -16,6 +16,15 @@ HelloWorld
 
 > 13 ! echo
 1932053504
+```
+
+Type `.help` to display help for all available commands or `.help <command-pattern>` to display help for a specific command.
+```
+Welcome to ralc!
+Type '.help' for more info or '.exit' to exit.
+
+> .help ech
+echo       prints out the element at the top of the stack (stack remains unchanged)
 ```
 
 For a complete list of commands, see [`commands.md`](./commands.md).

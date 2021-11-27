@@ -13,10 +13,20 @@ public class Main {
         while (!input.startsWith(".exit")) {
             System.out.print("\n> ");
             input = sc.nextLine();
+
+            // print help for all available commands
             if (input.equals(".help")) {
-                showHelp();
+                Help.printHelp();
                 continue;
             }
+
+            // print help for specific command(s)
+            if (input.matches("\\.help .*")) {
+                String[] parts = input.split(" ");
+                Help.printCommandHelp(parts[1]);
+                continue;
+            }
+
             try {
                 String result = computer.execute(input);
                 computer.clearState();
@@ -26,10 +36,5 @@ public class Main {
                 e.printStackTrace();
             }
         }
-    }
-
-    static void showHelp() {
-        // TODO: parse and display commands.md
-        System.out.println("Full list of commands is available here: https://github.com/bartolomej/ralc/blob/main/commands.md");
     }
 }
