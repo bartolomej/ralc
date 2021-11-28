@@ -177,7 +177,7 @@ public class Computer {
             case "/": {
                 int a = popInteger();
                 int b = popInteger();
-                pushMain(a / b);
+                pushMain(b / a);
                 return null;
             }
             case "%": {
@@ -187,7 +187,9 @@ public class Computer {
                 return null;
             }
             case ".": {
-                pushMain(mainStack.pop() + mainStack.pop());
+                String a = mainStack.pop();
+                String b = mainStack.pop();
+                pushMain(b + a);
                 return null;
             }
             case "rnd": {

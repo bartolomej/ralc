@@ -112,4 +112,12 @@ public class ExamplesTest {
         );
     }
 
+    @Test
+    void example12() throws Exception {
+        assertEquals(
+                "A BCD E FG HIJKLMNOP\n",
+                computer.execute("A B C . D . E FG H IJKLM . NOP . 0 print")
+        );
+    }
+
 }
