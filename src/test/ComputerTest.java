@@ -53,14 +53,14 @@ class ComputerTest {
     void funOperation() throws Exception {
         // should move items 2,3,4 to stack 1 and print the last item: 1
         assertEquals("1\n", computer.execute("1 3 1 fun 2 3 4 echo"));
-        assertEquals(3, computer.stacks[1].size());
+        assertEquals(3, computer.stacks.get(1).size());
     }
 
     @Test
     void moveOperation() throws Exception {
         // should move items 2,3,4 to stack 1 and print the last item: 1
         assertEquals("\n", computer.execute("1 3 2 1 move echo"));
-        assertEquals(2, computer.stacks[1].size());
+        assertEquals(2, computer.stacks.get(1).size());
     }
 
     @Test

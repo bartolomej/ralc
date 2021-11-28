@@ -1,12 +1,13 @@
 package main;
 
 import main.util.CollectionException;
+import main.util.Sequence;
 import main.util.Stack;
 import main.util.Utils;
 
 public class Computer {
 
-    public final Stack<String>[] stacks;
+    public final Sequence<Stack<String>> stacks;
     public Stack<String> mainStack;
     private static final int DEFAULT_STACKS = 42;
     private boolean conditionState;
@@ -16,11 +17,11 @@ public class Computer {
     }
 
     public Computer(int totalStacks) {
-        stacks = new Stack[totalStacks];
-        for (int i = 0; i < stacks.length; i++) {
-            stacks[i] = new Stack<>();
+        stacks = new Sequence<>(totalStacks);
+        for (int i = 0; i < totalStacks; i++) {
+            stacks.set(i, new Stack<String>());
         }
-        mainStack = stacks[0];
+        mainStack = stacks.get(0);
     }
 
     public String execute(String program) throws Exception {
@@ -35,7 +36,7 @@ public class Computer {
             if (token.equals("fun")) {
                 int targetStackIndex = popInteger();
                 moveCount = popInteger();
-                targetStack = stacks[targetStackIndex];
+                targetStack = stacks.get(targetStackIndex);
             }
             else if (moveCount > 0 && targetStack != null) {
                 targetStack.push(token);
@@ -53,8 +54,8 @@ public class Computer {
 
     public void clearState() {
         conditionState = false; // reset condition state
-        for (Stack<String> stack : stacks) {
-            stack.clear();
+        for (int i = 0; i < this.stacks.size(); i++) {
+            stacks.get(i).clear();
         }
     }
 
@@ -248,15 +249,15 @@ public class Computer {
     }
 
     private void push(int stackIndex, boolean value) throws CollectionException {
-        stacks[stackIndex].push(value ? "1" : "0");
+        stacks.get(stackIndex).push(value ? "1" : "0");
     }
 
     private void push(int stackIndex, int value) throws CollectionException {
-        stacks[stackIndex].push("" + value);
+        stacks.get(stackIndex).push("" + value);
     }
 
     private void push(int stackIndex, String value) throws CollectionException {
-        stacks[stackIndex].push(value);
+        stacks.get(stackIndex).push(value);
     }
 
     private int popInteger() throws CollectionException {
@@ -270,7 +271,7 @@ public class Computer {
     }
 
     private void run(int targetStackIndex) throws Exception {
-        Stack<String> targetStack = stacks[targetStackIndex];
+        Stack<String> targetStack = stacks.get(targetStackIndex);
         Stack<String> reversedStack = reverseStack(targetStack);
         while (!reversedStack.isEmpty()) {
             String token = reversedStack.pop();
@@ -280,7 +281,7 @@ public class Computer {
 
     private String print(int stackIndex) throws Exception {
         checkStackIndex(stackIndex);
-        Stack<String> targetStack = stacks[stackIndex];
+        Stack<String> targetStack = stacks.get(stackIndex);
         Stack<String> tempStack = new Stack<>();
         tempStack.addAll(targetStack);
         String[] out = new String[tempStack.size()];
@@ -292,21 +293,21 @@ public class Computer {
 
     private void clear(int stackIndex) throws Exception {
         checkStackIndex(stackIndex);
-        stacks[stackIndex].clear();
+        stacks.get(stackIndex).clear();
     }
 
     private void moveToStack(int stackIndex, int count) throws Exception {
         checkStackIndex(stackIndex);
         for (int i = 0; i < count; i++) {
             String topElement = mainStack.pop();
-            stacks[stackIndex].push(topElement);
+            stacks.get(stackIndex).push(topElement);
         }
     }
 
     private void reverseStack(int stackIndex) throws Exception {
         checkStackIndex(stackIndex);
         Stack<String> tempStack = new Stack<>();
-        Stack<String> targetStack = stacks[stackIndex];
+        Stack<String> targetStack = stacks.get(stackIndex);
         while (!targetStack.isEmpty()) {
             tempStack.push(targetStack.pop());
         }
@@ -324,7 +325,7 @@ public class Computer {
     }
 
     private void checkStackIndex(int stackIndex) throws Exception {
-        if (stackIndex >= stacks.length) {
+        if (stackIndex >= stacks.size()) {
             throw new Exception("Invalid stack index");
         }
     }
