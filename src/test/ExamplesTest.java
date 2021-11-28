@@ -90,19 +90,18 @@ public class ExamplesTest {
 
     @Test
     void example10() throws Exception {
-        assertEquals(
-                "1 print 2 print 3 print 4 print 2 run 0 print 4 run 0 print\n" +
-                        "0 100 rnd\n" +
-                        "\n" +
-                        "5 1 loop\n" +
-                        "\n" +
-                        "dup2 <= then ?pop else ?swap ?pop\n" +
-                        "\n" +
-                        "4 3 loop\n" +
-                        "34 96 12 48 25\n" +
-                        "12\n",
-                computer.execute("3 1 fun 0 100 rnd 3 2 fun 5 1 loop  7 3 fun dup2 <= then ?pop else ?swap ?pop 3 4 fun 4 3 loop")
-        );
+        String[] actual = computer.execute("3 1 fun 0 100 rnd 3 2 fun 5 1 loop  7 3 fun dup2 <= then ?pop else ?swap ?pop 3 4 fun 4 3 loop 1 print 2 print 3 print 4 print 2 run 0 print 4 run 0 print").split("\n");
+        String[] expected = new String[]{
+                "0 100 rnd",
+                "5 1 loop",
+                "dup2 <= then ?pop else ?swap ?pop",
+                "4 3 loop"
+        };
+        assertEquals(expected[0], actual[0]);
+        assertEquals(expected[1], actual[1]);
+        assertEquals(expected[2], actual[2]);
+        assertEquals(expected[3], actual[3]);
+        // other output lines are based on random variables
     }
 
 }
