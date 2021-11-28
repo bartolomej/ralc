@@ -101,100 +101,100 @@ public class Computer {
                 return null;
             }
             case "char": {
-                push(0, "" + (char) popInteger());
+                pushMain("" + (char) popInteger());
                 return null;
             }
             case "even": {
-                push(0, popInteger() % 2 == 0);
+                pushMain(popInteger() % 2 == 0);
                 return null;
             }
             case "odd": {
-                push(0, popInteger() % 2 != 0);
+                pushMain(popInteger() % 2 != 0);
                 return null;
             }
             case "!": {
-                push(0, Utils.factorial(popInteger()));
+                pushMain(Utils.factorial(popInteger()));
                 return null;
             }
             case "len": {
-                push(0, mainStack.pop().length());
+                pushMain(mainStack.pop().length());
                 return null;
             }
             case "<>": {
                 int a = popInteger();
                 int b = popInteger();
-                push(0, a != b);
+                pushMain(a != b);
                 return null;
             }
             case "==": {
                 int a = popInteger();
                 int b = popInteger();
-                push(0, a == b);
+                pushMain(a == b);
                 return null;
             }
             case "<": {
                 int a = popInteger();
                 int b = popInteger();
-                push(0, a < b);
+                pushMain(a < b);
                 return null;
             }
             case "<=": {
                 int a = popInteger();
                 int b = popInteger();
-                push(0, a <= b);
+                pushMain(a <= b);
                 return null;
             }
             case ">": {
                 int a = popInteger();
                 int b = popInteger();
-                push(0, a > b);
+                pushMain(a > b);
                 return null;
             }
             case ">=": {
                 int a = popInteger();
                 int b = popInteger();
-                push(0, a >= b);
+                pushMain(a >= b);
                 return null;
             }
             case "+": {
                 int a = popInteger();
                 int b = popInteger();
-                push(0, a + b);
+                pushMain(a + b);
                 return null;
             }
             case "-": {
                 int a = popInteger();
                 int b = popInteger();
-                push(0, b - a);
+                pushMain(b - a);
                 return null;
             }
             case "*": {
                 int a = popInteger();
                 int b = popInteger();
-                push(0, a * b);
+                pushMain(a * b);
                 return null;
             }
             case "/": {
                 int a = popInteger();
                 int b = popInteger();
-                push(0, a / b);
+                pushMain(a / b);
                 return null;
             }
             case "%": {
                 int a = popInteger();
                 int b = popInteger();
-                push(0, b % a);
+                pushMain(b % a);
                 return null;
             }
             case ".": {
-                push(0, mainStack.pop() + mainStack.pop());
+                pushMain(mainStack.pop() + mainStack.pop());
                 return null;
             }
             case "rnd": {
                 int a = popInteger();
                 int b = popInteger();
                 // random number is >= a and <= b
-                push(0, Utils.random(b, a));
+                pushMain(Utils.random(b, a));
                 return null;
             }
             case "then": {
@@ -248,16 +248,16 @@ public class Computer {
         }
     }
 
-    private void push(int stackIndex, boolean value) throws CollectionException {
-        stacks.get(stackIndex).push(value ? "1" : "0");
+    private void pushMain(boolean value) throws CollectionException {
+        stacks.get(0).push(value ? "1" : "0");
     }
 
-    private void push(int stackIndex, int value) throws CollectionException {
-        stacks.get(stackIndex).push("" + value);
+    private void pushMain(int value) throws CollectionException {
+        stacks.get(0).push("" + value);
     }
 
-    private void push(int stackIndex, String value) throws CollectionException {
-        stacks.get(stackIndex).push(value);
+    private void pushMain(String value) throws CollectionException {
+        stacks.get(0).push(value);
     }
 
     private int popInteger() throws CollectionException {
