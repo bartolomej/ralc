@@ -120,4 +120,12 @@ public class ExamplesTest {
         );
     }
 
+    @Test
+    void example13() throws Exception {
+        assertEquals(
+                "\n",
+                computer.execute("4 1 fun 2 run 0 print 12 2 fun 3 run 179 * 97 % 3 clear dup 1 3 move 1 3 fun 49 2 2 loop 1 print 2 print 3 print 10 1 loop")
+        );
+    }
+
 }

@@ -234,14 +234,12 @@ public class Computer {
             }
             case "run": {
                 int targetStackIndex = popInteger();
-                run(targetStackIndex);
-                return null;
+                return run(targetStackIndex);
             }
             case "loop": {
                 int targetStackIndex = popInteger();
                 int repetitions = popInteger();
-                loop(targetStackIndex, repetitions);
-                return null;
+                return loop(targetStackIndex, repetitions);
             }
             default: {
                 mainStack.push(token);
@@ -266,18 +264,39 @@ public class Computer {
         return Integer.parseInt(mainStack.pop());
     }
 
-    private void loop(int targetStackIndex, int repetitions) throws Exception {
+    private String loop(int targetStackIndex, int repetitions) throws Exception {
+        StringBuilder out = new StringBuilder();
         for (int i = 0; i < repetitions; i++) {
-            run(targetStackIndex);
+            String result = run(targetStackIndex);
+            if (result != null) {
+                out.append(result);
+                if (i < repetitions - 1) {
+                    out.append("\n");
+                }
+            }
+        }
+        if (out.length() > 0) {
+            return out.toString();
+        } else {
+            return null;
         }
     }
 
-    private void run(int targetStackIndex) throws Exception {
+    private String run(int targetStackIndex) throws Exception {
         Stack<String> targetStack = stacks.get(targetStackIndex);
         Stack<String> reversedStack = reverseStack(targetStack);
+        StringBuilder out = new StringBuilder();
         while (!reversedStack.isEmpty()) {
             String token = reversedStack.pop();
-            executeNext(token);
+            String result = executeNext(token);
+            if (result != null) {
+                out.append(result);
+            }
+        }
+        if (out.length() > 0) {
+            return out.toString();
+        } else {
+            return null;
         }
     }
 
