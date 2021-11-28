@@ -1,6 +1,8 @@
 package main;
 
-import java.util.Stack;
+import main.util.CollectionException;
+import main.util.Stack;
+import main.util.Utils;
 
 public class Computer {
 
@@ -36,7 +38,7 @@ public class Computer {
                 targetStack = stacks[targetStackIndex];
             }
             else if (moveCount > 0 && targetStack != null) {
-                targetStack.add(token);
+                targetStack.push(token);
                 moveCount--;
             }
             else {
@@ -70,7 +72,7 @@ public class Computer {
                 if (mainStack.isEmpty()) {
                     return "";
                 } else {
-                    return mainStack.peek();
+                    return mainStack.top();
                 }
             }
             case "pop": {
@@ -78,7 +80,7 @@ public class Computer {
                 return null;
             }
             case "dup": {
-                mainStack.push(mainStack.peek());
+                mainStack.push(mainStack.top());
                 return null;
             }
             case "dup2": {
@@ -245,19 +247,19 @@ public class Computer {
         }
     }
 
-    private void push(int stackIndex, boolean value) {
+    private void push(int stackIndex, boolean value) throws CollectionException {
         stacks[stackIndex].push(value ? "1" : "0");
     }
 
-    private void push(int stackIndex, int value) {
+    private void push(int stackIndex, int value) throws CollectionException {
         stacks[stackIndex].push("" + value);
     }
 
-    private void push(int stackIndex, String value) {
+    private void push(int stackIndex, String value) throws CollectionException {
         stacks[stackIndex].push(value);
     }
 
-    private int popInteger() {
+    private int popInteger() throws CollectionException {
         return Integer.parseInt(mainStack.pop());
     }
 
@@ -297,7 +299,7 @@ public class Computer {
         checkStackIndex(stackIndex);
         for (int i = 0; i < count; i++) {
             String topElement = mainStack.pop();
-            stacks[stackIndex].add(topElement);
+            stacks[stackIndex].push(topElement);
         }
     }
 
@@ -311,7 +313,7 @@ public class Computer {
         targetStack.addAll(tempStack);
     }
 
-    private Stack<String> reverseStack(Stack<String> stack) {
+    private Stack<String> reverseStack(Stack<String> stack) throws CollectionException {
         Stack<String> tempStack = new Stack<>();
         tempStack.addAll(stack);
         Stack<String> resultStack = new Stack<>();

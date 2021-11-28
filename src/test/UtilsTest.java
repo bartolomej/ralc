@@ -1,7 +1,7 @@
 package test;
 
 import main.Help;
-import main.Utils;
+import main.util.Utils;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

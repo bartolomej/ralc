@@ -1,7 +1,7 @@
 package main;
 
 import java.io.*;
-import static main.Utils.*;
+import static main.util.Utils.*;
 
 public class Help {
 
