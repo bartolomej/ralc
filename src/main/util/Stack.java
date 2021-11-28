@@ -75,7 +75,7 @@ public class Stack<T> implements StackAdt<T> {
     }
 
     public void clear() {
-        this.array = new Object[this.array.length];
+        this.length = 0;
     }
 
     @Override

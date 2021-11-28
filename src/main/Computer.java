@@ -133,26 +133,26 @@ public class Computer {
                 return null;
             }
             case "<": {
-                int a = popInteger();
                 int b = popInteger();
+                int a = popInteger();
                 pushMain(a < b);
                 return null;
             }
             case "<=": {
-                int a = popInteger();
                 int b = popInteger();
+                int a = popInteger();
                 pushMain(a <= b);
                 return null;
             }
             case ">": {
-                int a = popInteger();
                 int b = popInteger();
+                int a = popInteger();
                 pushMain(a > b);
                 return null;
             }
             case ">=": {
-                int a = popInteger();
                 int b = popInteger();
+                int a = popInteger();
                 pushMain(a >= b);
                 return null;
             }

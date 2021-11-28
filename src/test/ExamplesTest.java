@@ -104,4 +104,12 @@ public class ExamplesTest {
         // other output lines are based on random variables
     }
 
+    @Test
+    void example11() throws Exception {
+        assertEquals(
+                "0 1 0 0 0 1\n",
+                computer.execute("1 2 > 2 1 > 1 1 > 0 1 > -1 1 > 1 -1 > 0 print")
+        );
+    }
+
 }
